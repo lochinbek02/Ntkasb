@@ -40,8 +40,8 @@ class Reception(models.Model):
 class Student(models.Model):
     full_name = models.CharField(max_length=100)
     phone = models.CharField(max_length=20)
-    email = models.EmailField()
-    passport = models.CharField(max_length=20)
+    email = models.EmailField(null=True, blank=True)
+    passport = models.CharField(max_length=20, null=True, blank=True)
     location = models.CharField(null=True, blank=True, max_length=150)
     birth_date = models.DateField(null=True, blank=True)
     yunalish = models.ForeignKey('Yunalishlar', on_delete=models.CASCADE)

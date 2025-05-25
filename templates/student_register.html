@@ -95,20 +95,20 @@
 });
 document.addEventListener("DOMContentLoaded", function () {
     const birthInput = document.getElementById("id_birth_date");
-    birthInput.setAttribute("placeholder", "dd.mm.yyyy");
+    birthInput.setAttribute("placeholder", "YYYY-MM-DD");
     const errorMsg = document.getElementById("birth_date_error");
 
     birthInput.addEventListener("input", function (e) {
         let value = e.target.value.replace(/\D/g, ""); // faqat raqamlar
         let formatted = "";
 
-        if (value.length >= 2) {
-            formatted += value.substring(0, 2) + ".";
-            if (value.length >= 4) {
-                formatted += value.substring(2, 4) + ".";
-                formatted += value.substring(4, 8);
+        if (value.length >= 4) {
+            formatted += value.substring(0, 4) + "-";
+            if (value.length >= 6) {
+                formatted += value.substring(4, 6) + "-";
+                formatted += value.substring(6, 8);
             } else {
-                formatted += value.substring(2);
+                formatted += value.substring(4);
             }
         } else {
             formatted = value;
@@ -119,14 +119,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
     birthInput.addEventListener("blur", function (e) {
         const value = e.target.value;
-        const datePattern = /^(\d{2})\.(\d{2})\.(\d{4})$/;
+        const datePattern = /^(\d{4})-(\d{2})-(\d{2})$/;
 
         if (!datePattern.test(value)) {
             errorMsg.style.display = "block";
             return;
         }
 
-        const [, day, month, year] = value.match(datePattern).map(Number);
+        const [, year, month, day] = value.match(datePattern).map(Number);
         const dateObj = new Date(year, month - 1, day);
 
         if (
