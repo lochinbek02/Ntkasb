@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="container">
+    <h2 class="text-center mt-3 mb-4">O'qituvchilar ro'yxati</h2>
+    <div class="row g-4">
+        {% for teacher in teachers %}
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm">
+                {% if teacher.photo %}
+                    <img src="{{ teacher.photo.url }}" class="card-img-top" alt="{{ teacher.full_name }}" style="height:200px; object-fit:cover;">
+                {% else %}
+                    <div style="height:200px; background:#f0f0f0; display:flex; align-items:center; justify-content:center;" class="card-img-top">
+                        <span class="text-muted">Rasm yo‘q</span>
+                    </div>
+                {% endif %}
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">{{ teacher.full_name }}</h5>
+                    <p class="card-text text-muted">{{ teacher.email }}</p>
+                    <p class="card-text flex-grow-1">{{ teacher.bio|truncatewords:20 }}</p>
+                    <a href="{% url 'teacher-detail' teacher.id %}" class="btn btn-outline-primary mt-auto">Batafsil</a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <div class="alert alert-info text-center">Hozircha o'qituvchilar mavjud emas.</div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

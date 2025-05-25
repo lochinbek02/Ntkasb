@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container my-5">
+    {% if reception %}
+        <h2 class="text-center mb-4" style="text-decoration: underline;">{{ reception.title }}</h2>
+        <div class="bg-white p-4 rounded shadow-sm">
+            {{ reception.content|linebreaks }}
+            {% if reception.file %}
+                <div class="mt-4">
+                    <a href="{{ reception.file.url }}" class="btn btn-link text-primary" target="_blank">
+                        Taqsimot yuklab olish (PDF)
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+    {% else %}
+        <div class="alert alert-info text-center">Qabul ma'lumotlari hali kiritilmagan.</div>
+    {% endif %}
+</div>
+{% endblock %}

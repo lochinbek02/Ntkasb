@@ -1,28 +1,22 @@
 from rest_framework import serializers
-from .models import GeneralList, CompletedList, CancelledList, NotComeList
-class GeneralListSerializers(serializers.ModelSerializer):
-    class Meta:
-        model = GeneralList
-        fields = ['id', 'service', 'firstname', 'lastname', 'phone','user_telegram_id', 'created_at','updated_at']
-class GeneralListCreateSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = GeneralList
-        fields = ['service', 'firstname', 'lastname', 'phone','user_telegram_id']
-class HomeSaveSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = GeneralList
-        fields = ['service', 'firstname', 'lastname', 'phone']
-class CompletedListSerializers(serializers.ModelSerializer):
-    class Meta:
-        model = CompletedList
-        fields = ['id', 'service', 'firstname', 'lastname', 'phone','user_telegram_id', 'created_at','updated_at']
+from .models import Yunalishlar, Teacher, News, Reception
 
-class CancelledListSerializers(serializers.ModelSerializer):
+class YunalishlarSerializer(serializers.ModelSerializer):
     class Meta:
-        model = CancelledList
-        fields = ['id', 'service', 'firstname', 'lastname', 'phone','user_telegram_id', 'created_at','updated_at']
+        model = Yunalishlar
+        fields = '__all__'
 
-class NotComeListSerializers(serializers.ModelSerializer):
+class TeacherSerializer(serializers.ModelSerializer):
     class Meta:
-        model = NotComeList
-        fields = ['id', 'service', 'firstname', 'lastname', 'phone','user_telegram_id', 'created_at','updated_at']
+        model = Teacher
+        fields = '__all__'
+
+class NewsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = News
+        fields = '__all__'
+
+class ReceptionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Reception
+        fields = '__all__'

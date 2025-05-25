@@ -1,0 +1,146 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+    .student-form-wrapper {
+        background: #fff;
+        border-radius: 18px;
+        box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+        padding: 2.5rem 2rem 2rem 2rem;
+        margin-top: 2rem;
+    }
+    .student-form-wrapper h2 {
+        font-weight: 700;
+        letter-spacing: 1px;
+    }
+    .student-form-wrapper form label {
+        font-weight: 300;
+        margin-bottom: 6px;
+    }
+    .student-form-wrapper form input,
+    .student-form-wrapper form select {
+        border-radius: 8px;
+        border: 1px solid #d1d5db;
+        padding: 5px 7px;
+        margin-bottom: 18px;
+        width: 100%;
+        font-size: 1rem;
+        transition: border-color 0.2s;
+    }
+    .student-form-wrapper form input:focus,
+    .student-form-wrapper form select:focus {
+        border-color: #2563eb;
+        outline: none;
+        box-shadow: 0 0 0 2px #2563eb22;
+    }
+    .student-form-wrapper .btn-primary {
+        background: #2563eb;
+        border: none;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 1.1rem;
+        padding: 12px 0;
+        margin-top: 10px;
+        transition: background 0.2s;
+    }
+    .student-form-wrapper .btn-primary:hover {
+        background: #1746a2;
+    }
+</style>
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <div class="student-form-wrapper">
+                <h2 class="text-center mb-4">Yangi talabani ro'yxatdan o'tkazish</h2>
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="btn btn-primary w-100">Yuborish</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+    const phoneInput = document.getElementById("id_phone");
+    phoneInput.setAttribute("placeholder", "+998 99 999 99 99");
+
+    phoneInput.addEventListener("input", function (e) {
+        let value = e.target.value.replace(/\D/g, ""); // faqat raqamlar
+        if (value.startsWith("998")) {
+            value = value.slice(3); // "998" ni olib tashlaymiz
+        }
+
+        let formatted = "+998 ";
+
+        if (value.length > 2) {
+            formatted += value.substring(0, 2) + " ";
+            if (value.length > 5) {
+                formatted += value.substring(2, 5) + " ";
+                if (value.length > 7) {
+                    formatted += value.substring(5, 7) + " ";
+                    formatted += value.substring(7, 9);
+                } else {
+                    formatted += value.substring(5);
+                }
+            } else {
+                formatted += value.substring(2);
+            }
+        } else {
+            formatted += value;
+        }
+
+        e.target.value = formatted.trim();
+    });
+});
+document.addEventListener("DOMContentLoaded", function () {
+    const birthInput = document.getElementById("id_birth_date");
+    birthInput.setAttribute("placeholder", "dd.mm.yyyy");
+    const errorMsg = document.getElementById("birth_date_error");
+
+    birthInput.addEventListener("input", function (e) {
+        let value = e.target.value.replace(/\D/g, ""); // faqat raqamlar
+        let formatted = "";
+
+        if (value.length >= 2) {
+            formatted += value.substring(0, 2) + ".";
+            if (value.length >= 4) {
+                formatted += value.substring(2, 4) + ".";
+                formatted += value.substring(4, 8);
+            } else {
+                formatted += value.substring(2);
+            }
+        } else {
+            formatted = value;
+        }
+
+        e.target.value = formatted;
+    });
+
+    birthInput.addEventListener("blur", function (e) {
+        const value = e.target.value;
+        const datePattern = /^(\d{2})\.(\d{2})\.(\d{4})$/;
+
+        if (!datePattern.test(value)) {
+            errorMsg.style.display = "block";
+            return;
+        }
+
+        const [, day, month, year] = value.match(datePattern).map(Number);
+        const dateObj = new Date(year, month - 1, day);
+
+        if (
+            dateObj.getFullYear() !== year ||
+            dateObj.getMonth() !== month - 1 ||
+            dateObj.getDate() !== day
+        ) {
+            errorMsg.style.display = "block";
+        } else {
+            errorMsg.style.display = "none";
+        }
+    });
+});
+
+</script>
+
+{% endblock %}

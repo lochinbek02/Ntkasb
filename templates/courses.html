@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="container my-5">
+    <h2 class="text-center mb-4 text-primary fw-bold" style="letter-spacing: 2px;">Yo'nalishlar</h2>
+    <div class="row g-4">
+        {% for yunalish in yunalishlar %}
+        <div class="col-md-4">
+            <div class="card h-100 shadow-lg border-0 rounded-4">
+                {% if yunalish.image %}
+                    <img src="{{ yunalish.image.url }}" class="card-img-top rounded-top-4" alt="{{ yunalish.name }}" style="height: 220px; object-fit: cover;">
+                {% else %}
+                    <div style="height:220px; background:#f0f0f0; display:flex; align-items:center; justify-content:center;" class="card-img-top rounded-top-4">
+                        <span class="text-muted">Rasm yo‘q</span>
+                    </div>
+                {% endif %}
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title text-primary fw-bold text-center">{{ yunalish.name }}</h5>
+                    <p class="card-text text-secondary" style="min-height: 80px;">{{ yunalish.description|truncatewords:30 }}</p>
+                    <div class="mt-auto">
+                        <a href="{% url 'yunalish-detail' yunalish.id %}" class="btn btn-outline-primary w-100">Batafsil</a>
+                    </div>
+                </div>
+                <div class="card-footer bg-white border-0 text-end small text-muted">
+                    {{ yunalish.created_at|date:"d.m.Y" }}
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <div class="alert alert-info text-center">Hozircha yo‘nalishlar mavjud emas.</div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
